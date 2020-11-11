@@ -5,8 +5,9 @@
 
     <li v-for="entry in entries" :key="entry.word">
       <p><strong>{{entry.word}}</strong></p>
-      <p>{{entry.phonetics}}</p>
-      <p>{{entry.meanings}}</p>
+      <p>Phonetic: {{entry.phonetics.text}}</p>
+      <button v-on:click="downloadMp3(entry.phonetics.audio)">DownLoad</button>
+      <p>Part of Speech: {{entry.meanings.partOfSpeech}}</p>
     </li>
   </ul>
 
@@ -35,20 +36,25 @@ export default {
     })
     .catch(e => {
       this.errors.push(e)
-    })
-  }
+      })
+    },
+    onClick(event) {
+              axios({
+                    url: event.target.value,
+                    method: 'GET',
+                    responseType: 'blob',
+                }).then((response) => {
+                     var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                     var fileLink = document.createElement('a');
 
-  // Fetches posts when the component is created.
-  
+                     fileLink.href = fileURL;
+                     fileLink.setAttribute('download', 'file.mp3');
+                     document.body.appendChild(fileLink);
 
-    // async / await version (created() becomes async created())
-    //
-    // try {
-    //   const response = await axios.get(`http://jsonplaceholder.typicode.com/posts`)
-    //   this.posts = response.data
-    // } catch (e) {
-    //   this.errors.push(e)
-    // }
+                     fileLink.click();
+                });
+          }
+
   }
 }
 </script>
