@@ -1,3 +1,7 @@
+<style>
+  @import './assets/styles/custom.css';
+</style>
+
 <template>
   <input v-model="words" placeholder="Input words">
   <button v-on:click="getEntry">Search</button>
@@ -5,9 +9,24 @@
 
     <li v-for="entry in entries" :key="entry.word">
       <p><strong>{{entry.word}}</strong></p>
-      <p>Phonetic: {{entry.phonetics.text}}</p>
-      <button v-on:click="downloadMp3(entry.phonetics.audio)">DownLoad</button>
-      <p>Part of Speech: {{entry.meanings.partOfSpeech}}</p>
+      <div v-for="phonetic in entry.phonetics" :key="phonetic.text">
+        <p>Phonetic: {{phonetic.text}}</p>
+        <button v-on:click="downloadMp3(phonetic.audio)">DownLoad</button>
+      </div>
+
+      <div v-for="meaning in entry.meanings" :key="meaning.partOfSpeech">
+        <ul>
+          <li>
+            <p>Part of Speech: {{meaning.partOfSpeech}}</p>
+            <ul v-for="definition in meaning.definitions" :key="definition.definition">
+              <span>
+                <li> <p>Definition: {{definition.definition}}</p> </li>
+                <li> <p>Example: {{definition.example}} </p> </li>
+              </span>
+              </ul>
+          </li>
+        </ul>
+      </div>
     </li>
   </ul>
 
@@ -27,7 +46,6 @@ export default {
 
   methods: {
     getEntry : function () {
-      console.log(this.words);
       let url = `https://api.dictionaryapi.dev/api/v2/entries/en/` + this.words;
     axios.get(url)
     .then(response => {
@@ -38,9 +56,9 @@ export default {
       this.errors.push(e)
       })
     },
-    onClick(event) {
+    downloadMp3(url) {
               axios({
-                    url: event.target.value,
+                    url: 'https://cors-anywhere.herokuapp.com/' + url,
                     method: 'GET',
                     responseType: 'blob',
                 }).then((response) => {
@@ -48,7 +66,7 @@ export default {
                      var fileLink = document.createElement('a');
 
                      fileLink.href = fileURL;
-                     fileLink.setAttribute('download', 'file.mp3');
+                     fileLink.setAttribute('download', this.words + '.mp3');
                      document.body.appendChild(fileLink);
 
                      fileLink.click();
