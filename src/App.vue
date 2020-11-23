@@ -11,7 +11,7 @@
       <p><strong>{{entry.word}}</strong></p>
       <div v-for="phonetic in entry.phonetics" :key="phonetic.text">
         <p>Phonetic: {{phonetic.text}}</p>
-        <button v-on:click="downloadMp3(phonetic.audio)">DownLoad</button>
+        <button v-on:click="downloadMp3(phonetic.audio)">DownLoad Audio</button>
       </div>
 
       <div v-for="meaning in entry.meanings" :key="meaning.partOfSpeech">
@@ -21,7 +21,9 @@
             <ul v-for="definition in meaning.definitions" :key="definition.definition">
               <span>
                 <li> <p>Definition: {{definition.definition}}</p> </li>
-                <li> <p>Example: {{definition.example}} </p> </li>
+                <li v-if="definition.example"> <p>Example: {{definition.example}} </p> </li>
+                <li v-if="definition.synonyms"> <p>Synonyms: {{definition.synonyms}} </p> </li>
+                <hr>
               </span>
               </ul>
           </li>
@@ -29,6 +31,7 @@
       </div>
     </li>
   </ul>
+
 
   
 </template>
@@ -53,7 +56,8 @@ export default {
       this.entries = response.data
     })
     .catch(e => {
-      this.errors.push(e)
+      alert("Can't found the word: " + this.words);
+      console("Error: " + e);
       })
     },
     downloadMp3(url) {

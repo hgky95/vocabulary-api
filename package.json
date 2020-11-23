@@ -10,6 +10,9 @@
   "dependencies": {
     "axios": "^0.21.0",
     "core-js": "^3.6.5",
+    "primeflex": "^2.0.0",
+    "primeicons": "^4.0.0",
+    "primevue": "^3.0.1",
     "vue": "^3.0.0"
   },
   "devDependencies": {
