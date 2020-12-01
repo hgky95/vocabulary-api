@@ -3,7 +3,7 @@
 </style>
 
 <template>
-  <input v-model="words" placeholder="Input words">
+  <input v-model="words" placeholder="Input words" v-on:keyup.enter="getEntry">
   <button v-on:click="getEntry">Search</button>
   <ul v-if="entries && entries.length">
 
