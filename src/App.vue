@@ -61,7 +61,6 @@ export default {
       let url = `https://api.dictionaryapi.dev/api/v2/entries/en/` + this.words;
     axios.get(url)
     .then(response => {
-      // JSON responses are automatically parsed.
       this.entries = response.data
     })
     .catch(e => {
