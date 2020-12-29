@@ -14,6 +14,15 @@ span {
   body {
     margin: 0;
   }
+
+  .general {
+    font-size: 1.25rem;
+    font-weight: bold;
+    background-color: #970076;
+    padding: 0.5rem;
+    color: white;
+    border-radius: 25px;
+  }
   
   section {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
@@ -39,14 +48,14 @@ span {
     background-color: black;
   }
   
-  p {
+  /* p {
     font-size: 1.25rem;
     font-weight: bold;
     background-color: #970076;
     padding: 0.5rem;
     color: white;
     border-radius: 25px;
-  }
+  } */
   
   input {
     font: inherit;
