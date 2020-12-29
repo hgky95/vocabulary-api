@@ -8,15 +8,18 @@
       
         <h2> Dictionary </h2>
         <input class="p-col-2" v-model="words" placeholder="Input words" v-on:keyup.enter="getEntry">
-        <button v-on:click="getEntry">Search</button>
+        <Button v-on:click="getEntry" class="p-button-raised p-button-rounded">Search</Button>
      
       <ul v-if="entries && entries.length">
         <li v-for="entry in entries" :key="entry.word">
-          <p class="p-col-4">{{entry.word}}</p>
-          <div v-for="phonetic in entry.phonetics" :key="phonetic.text">
-            <p class="p-col-4">Phonetic: {{phonetic.text}}</p>
-            <button v-on:click="downloadMp3(phonetic.audio)">DownLoad Audio</button>
+          <div class="general">
+              <span class="p-col-4">{{entry.word}} </span>
+              <span v-for="phonetic in entry.phonetics" :key="phonetic.text">
+                <span class="p-col-4">Phonetic: {{phonetic.text}}</span>
+                <button v-on:click="downloadMp3(phonetic.audio)">DownLoad Audio</button>
+              </span>
           </div>
+          
 
           <div v-for="meaning in entry.meanings" :key="meaning.partOfSpeech">
             <div class=""> 
