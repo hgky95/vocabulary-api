@@ -8,15 +8,18 @@
       
         <h2> Dictionary </h2>
         <input class="p-col-2" v-model="words" placeholder="Input words" v-on:keyup.enter="getEntry">
-        <Button v-on:click="getEntry" class="p-button-raised p-button-rounded">Search</Button>
+        <Button v-on:click="getEntry" class="pi pi-search p-button-icon"> Search</Button>
      
       <ul v-if="entries && entries.length">
-        <li v-for="entry in entries" :key="entry.word">
+        <div v-for="entry in entries" :key="entry.word">
           <div class="general">
-              <span class="p-col-4">{{entry.word}} </span>
+              <span class="text-left">{{entry.word}} </span>
               <span v-for="phonetic in entry.phonetics" :key="phonetic.text">
-                <span class="p-col-4">Phonetic: {{phonetic.text}}</span>
-                <button v-on:click="downloadMp3(phonetic.audio)">DownLoad Audio</button>
+                <span class="phonetic">
+                  <span class="text">{{phonetic.text}}</span>
+                  <Button v-on:click="downloadMp3(phonetic.audio)" icon="pi pi-download" class="p-button-rounded p-button-info p-button-sm"> </Button>
+                </span>
+                
               </span>
           </div>
           
@@ -26,13 +29,12 @@
               <ul>
                 <div>
                   <li>
-                    <p>Part of Speech: {{meaning.partOfSpeech}}</p>
+                    <p class="text-left">Part of Speech: {{meaning.partOfSpeech}}</p>
                     <ul v-for="definition in meaning.definitions" :key="definition.definition">
                       <span class="shadow">
-                        <li> <p>Definition: {{definition.definition}}</p> </li>
-                        <li v-if="definition.example"> <p>Example: {{definition.example}} </p> </li>
-                        <li v-if="definition.synonyms"> <p>Synonyms: {{definition.synonyms}} </p> </li>
-                        <hr>
+                         <p class="text-left">Definition: {{definition.definition}}</p> 
+                         <p class="text-left">Example: {{definition.example}} </p> 
+                         <p class="text-left">Synonyms: {{definition.synonyms}} </p> 
                       </span>
                     </ul>
                   </li>
@@ -41,7 +43,7 @@
             </div>
             
           </div>
-        </li>
+        </div>
       </ul>
   </section>
   
