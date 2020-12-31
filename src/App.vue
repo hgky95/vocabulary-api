@@ -1,13 +1,11 @@
 <style>
   @import './assets/styles/custom.css';
-
 </style>
 
 <template>
   <section>
-      
         <h2> Dictionary </h2>
-        <input class="p-col-2" v-model="words" placeholder="Input words" v-on:keyup.enter="getEntry">
+        <span class="input-custom"> <input class="p-col-2" v-model="words" placeholder="Input words" v-on:keyup.enter="getEntry"> </span>
         <Button v-on:click="getEntry" class="pi pi-search p-button-icon"> Search</Button>
      
       <ul v-if="entries && entries.length">
@@ -17,7 +15,8 @@
               <span v-for="phonetic in entry.phonetics" :key="phonetic.text">
                 <span class="phonetic">
                   <span class="text">{{phonetic.text}}</span>
-                  <Button v-on:click="downloadMp3(phonetic.audio)" icon="pi pi-download" class="p-button-rounded p-button-info p-button-sm"> </Button>
+                  <label class="padding-right"> <Button v-on:click="playSound(phonetic.audio)" icon="pi pi-volume-up" class="p-button-sm padding-right"> </Button> </label>
+                  <label> <Button v-on:click="downloadMp3(phonetic.audio)" icon="pi pi-download" class="p-button-sm padding-left"> </Button> </label>
                 </span>
                 
               </span>
@@ -92,7 +91,11 @@ export default {
 
                      fileLink.click();
                 });
-          }
+    },
+    playSound(url) {
+      var audio = new Audio(url);
+      audio.play();
+    }
 
   }
 }
