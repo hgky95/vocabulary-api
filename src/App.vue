@@ -66,36 +66,39 @@ export default {
 
   methods: {
     getEntry : function () {
+      if (this.words.length == 0) {
+        return;
+      }
       let url = `https://api.dictionaryapi.dev/api/v2/entries/en/` + this.words;
-    axios.get(url)
-    .then(response => {
-      this.entries = response.data
-    })
-    .catch(e => {
-      alert("Can't found the word: " + this.words);
-      console("Error: " + e);
+      axios.get(url)
+      .then(response => {
+        this.entries = response.data
       })
-    },
-    downloadMp3(url) {
-              axios({
-                    url: 'https://cors-anywhere.herokuapp.com/' + url,
-                    method: 'GET',
-                    responseType: 'blob',
-                }).then((response) => {
-                     var fileURL = window.URL.createObjectURL(new Blob([response.data]));
-                     var fileLink = document.createElement('a');
+      .catch(e => {
+        alert("Can't found the word: " + this.words);
+        console("Error: " + e);
+        })
+      },
+      downloadMp3(url) {
+                axios({
+                      url: 'https://cors-anywhere.herokuapp.com/' + url,
+                      method: 'GET',
+                      responseType: 'blob',
+                  }).then((response) => {
+                      var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                      var fileLink = document.createElement('a');
 
-                     fileLink.href = fileURL;
-                     fileLink.setAttribute('download', this.words + '.mp3');
-                     document.body.appendChild(fileLink);
+                      fileLink.href = fileURL;
+                      fileLink.setAttribute('download', this.words + '.mp3');
+                      document.body.appendChild(fileLink);
 
-                     fileLink.click();
-                });
-    },
-    playSound(url) {
-      var audio = new Audio(url);
-      audio.play();
-    }
+                      fileLink.click();
+                  });
+      },
+      playSound(url) {
+        var audio = new Audio(url);
+        audio.play();
+      }
 
   }
 }
