@@ -76,7 +76,7 @@ export default {
       })
       .catch(e => {
         alert("Can't found the word: " + this.words);
-        console("Error: " + e);
+        console.log("Error: " + e);
         })
       },
       downloadMp3(url) {
