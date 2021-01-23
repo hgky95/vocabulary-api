@@ -5,7 +5,7 @@
 <template>
   <section>
         <h2> Dictionary </h2>
-        <span class="input-custom"> <input class="p-col-2" v-model="words" placeholder="Input words" v-on:keyup.enter="getEntry"> </span>
+        <span class="input-custom"> <input class="p-col-2" v-model="word" placeholder="Input word" v-on:keyup.enter="getEntry"> </span>
         <Button v-on:click="getEntry" class="pi pi-search p-button-icon"> Search</Button>
      
       <ul v-if="entries && entries.length">
@@ -60,22 +60,22 @@ export default {
   data() {
     return {
       entries: [],
-      words: []
+      word: ""
     }
   },
 
   methods: {
     getEntry : function () {
-      if (this.words.length == 0) {
+      if (this.word.length == 0) {
         return;
       }
-      let url = `https://api.dictionaryapi.dev/api/v2/entries/en/` + this.words;
+      let url = `https://api.dictionaryapi.dev/api/v2/entries/en/` + this.word;
       axios.get(url)
       .then(response => {
         this.entries = response.data
       })
       .catch(e => {
-        alert("Can't found the word: " + this.words);
+        alert("Can't found the word: " + this.word);
         console.log("Error: " + e);
         })
       },
@@ -89,7 +89,7 @@ export default {
                       var fileLink = document.createElement('a');
 
                       fileLink.href = fileURL;
-                      fileLink.setAttribute('download', this.words + '.mp3');
+                      fileLink.setAttribute('download', this.word + '.mp3');
                       document.body.appendChild(fileLink);
 
                       fileLink.click();
