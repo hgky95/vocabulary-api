@@ -66,7 +66,9 @@ export default {
 
   methods: {
     getEntry : function () {
+      this.word = this.word.trim();
       if (this.word.length == 0) {
+        this.word = "";
         return;
       }
       let url = `https://api.dictionaryapi.dev/api/v2/entries/en/` + this.word;
