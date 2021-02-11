@@ -57,6 +57,8 @@
 <script>
 import axios from 'axios';
 
+const HOST = "http://localhost:9090/";
+
 export default {
   data() {
     return {
@@ -67,7 +69,7 @@ export default {
 
   methods: {
     getEntry : function () {
-      let url = `https://api.dictionaryapi.dev/api/v2/entries/en/` + this.words;
+      let url = HOST + 'dictionary/' + this.words;
     axios.get(url)
     .then(response => {
       this.entries = response.data
