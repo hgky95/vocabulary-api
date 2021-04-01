@@ -35,6 +35,15 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		
+	<!-- https://mvnrepository.com/artifact/org.apache.maven.shared/maven-shared-utils -->
+<dependency>
+    <groupId>org.apache.maven.shared</groupId>
+    <artifactId>maven-shared-utils</artifactId>
+    <version>3.3.3</version>
+</dependency>
+
+		
 	</dependencies>
 
 	<build>
