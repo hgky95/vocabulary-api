@@ -79,22 +79,45 @@ export default {
       console("Error: " + e);
       })
     },
-    downloadMp3(url) {
-              axios({
-                    url: 'https://cors-anywhere.herokuapp.com/' + url,
-                    method: 'GET',
-                    responseType: 'blob',
-                }).then((response) => {
-                     var fileURL = window.URL.createObjectURL(new Blob([response.data]));
-                     var fileLink = document.createElement('a');
+    //  downloadMp3(url) {
+    //            axios({
+    //                  url: url,
+    //                  method: 'GET',
+    //                  responseType: 'blob',
+    //              }).then((response) => {
+    //                   var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+    //                   var fileLink = document.createElement('a');
 
-                     fileLink.href = fileURL;
-                     fileLink.setAttribute('download', this.words + '.mp3');
-                     document.body.appendChild(fileLink);
+    //                   fileLink.href = fileURL;
+    //                   fileLink.setAttribute('download', this.words + '.mp3');
+    //                   document.body.appendChild(fileLink);
 
-                     fileLink.click();
-                });
-          }
+    //                   fileLink.click();
+    //              });
+    //  }
+     downloadMp3(url) {
+                 var newUrl = HOST + 'audio';
+                 axios.get(newUrl, {
+                   params: {
+                     audioUrl: url
+                   }
+                 })
+                   .then(response => {
+                    
+                      var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                      var fileLink = document.createElement('a');
+
+                       fileLink.href = fileURL;
+                       fileLink.setAttribute('download', this.words + '.mp3');
+                       document.body.appendChild(fileLink);
+
+                       fileLink.click();
+                   })
+                   .catch(e => {
+                     alert("Can't found the word: " + this.words);
+                     console("Error: " + e);
+                     })
+     }
 
   }
 }
