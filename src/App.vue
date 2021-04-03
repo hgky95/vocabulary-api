@@ -104,12 +104,11 @@ export default {
                  })
                    .then(response => {
                     
-                      var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+                      var fileURL = response.request.responseURL;
                       var fileLink = document.createElement('a');
 
                        fileLink.href = fileURL;
-                       fileLink.setAttribute('download', this.words + '.mp3');
-                       document.body.appendChild(fileLink);
+                     
 
                        fileLink.click();
                    })
