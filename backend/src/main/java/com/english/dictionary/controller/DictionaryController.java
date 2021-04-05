@@ -2,6 +2,8 @@ package com.english.dictionary.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -24,6 +26,8 @@ import org.springframework.web.client.RestTemplate;
 public class DictionaryController {
 
 	private static final String URI = "https://api.dictionaryapi.dev/api/v2/entries/en/";
+	private static final Pattern PATTERN = Pattern.compile("(\\/mp3\\/)(.*)");
+	private static final String EMPTY = "";
 
 	@GetMapping("/dictionary/{word}")
 	public String getWord(@PathVariable String word) {
@@ -38,13 +42,22 @@ public class DictionaryController {
 		try {
 			HttpHeaders headers = new HttpHeaders();
 			response.setContentType("audio/mpeg");
-			response.setHeader("Content-Disposition", "attachment; filename=\"word.mp3\"");
+			String header = buildHeader(audioUrl);
+			response.setHeader("Content-Disposition", header);
 			URL url = new URL(audioUrl);
 			return new ResponseEntity<Resource>(new FileUrlResource(url), headers, HttpStatus.OK);
 		} catch (IOException ex) {
 			throw new RuntimeException("IOError writing file to output stream");
 		}
 	}
-	
+
+	private static String buildHeader(String url) {
+		Matcher matcher = PATTERN.matcher(url);
+		if (matcher.find()) {
+			String fileName = matcher.group(2);
+			return String.format("attachment; filename=\"%s\"", fileName);
+		}
+		return EMPTY;
+	}
 
 }
