@@ -79,7 +79,7 @@
 <script>
 import axios from "axios";
 
-const HOST = "http://localhost:9090/";
+const HOST = "http://localhost:9090/api/dictionary";
 
 export default {
   data() {
@@ -91,7 +91,7 @@ export default {
 
   methods: {
     getEntry: function() {
-      let url = HOST + "dictionary/" + this.word;
+      let url = HOST + "?word=" + this.word;
       axios
         .get(url)
         .then((response) => {
@@ -103,7 +103,7 @@ export default {
         });
     },
     downloadMp3(url) {
-      var newUrl = HOST + "audio";
+      var newUrl = HOST + "/audio";
       axios
         .get(newUrl, {
           params: {

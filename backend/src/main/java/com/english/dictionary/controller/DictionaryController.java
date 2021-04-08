@@ -13,8 +13,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,15 +20,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin(origins = "http://localhost:8089")
+@RequestMapping("api/dictionary")
 public class DictionaryController {
 
 	private static final String URI = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 	private static final Pattern PATTERN = Pattern.compile("(\\/mp3\\/)(.*)");
 	private static final String EMPTY = "";
 
-	@GetMapping("/dictionary/{word}")
-	public String getWord(@PathVariable String word) {
+	@RequestMapping(method = RequestMethod.GET)
+	public String getWord(@RequestParam("word") String word) {
 		RestTemplate restTemplate = new RestTemplate();
 		String destinationURI = URI + word;
 		ResponseEntity<String> result = restTemplate.getForEntity(destinationURI, String.class);
