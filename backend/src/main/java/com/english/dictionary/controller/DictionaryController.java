@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:8082")
+@CrossOrigin(origins = "http://localhost:8080")
 public class DictionaryController {
 
 	private static final String URI = "https://api.dictionaryapi.dev/api/v2/entries/en/";
