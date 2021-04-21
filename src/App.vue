@@ -15,6 +15,7 @@
               <span v-for="phonetic in entry.phonetics" :key="phonetic.text">
                 <span class="phonetic">
                   <span class="text">{{phonetic.text}}</span>
+                  <Button @click="doCopy(phonetic.text)" icon="pi pi-copy" class="p-button-sm margin-right"></Button>
                   <label class="padding-right"> <Button v-on:click="playSound(phonetic.audio)" icon="pi pi-volume-up" class="p-button-sm padding-right"> </Button> </label>
                   <label> <Button v-on:click="downloadMp3(phonetic.audio)" icon="pi pi-download" class="p-button-sm padding-left"> </Button> </label>
                 </span>
@@ -55,6 +56,7 @@
 
 <script>
 import axios from 'axios';
+import { copyText } from 'vue3-clipboard'
 
 export default {
   data() {
@@ -100,6 +102,15 @@ export default {
       playSound(url) {
         var audio = new Audio(url);
         audio.play();
+      },
+      doCopy(phoneticText) {
+        copyText(phoneticText, undefined, (error, event) => {
+          if (error) {
+            console.log(error)
+          } else {
+            console.log(event)
+          }
+        })
       }
 
   }
