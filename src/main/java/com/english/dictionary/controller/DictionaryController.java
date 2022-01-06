@@ -25,7 +25,7 @@ import org.springframework.web.client.RestTemplate;
 public class DictionaryController {
 
 	private static final String URI = "https://api.dictionaryapi.dev/api/v2/entries/en/";
-	private static final Pattern PATTERN = Pattern.compile("(\\/sounds)(.\\d*\\/)(.*)");
+	private static final Pattern PATTERN = Pattern.compile("(\\/sounds)(.\\d*\\/)(\\w*)");
 	private static final String EMPTY = "";
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -38,7 +38,7 @@ public class DictionaryController {
 
 	@RequestMapping(value = "/audio", method = RequestMethod.GET)
 	public ResponseEntity<?> downloadAudio(@RequestParam("audioUrl") String audioUrl, HttpServletResponse response) {
-		audioUrl = "https://" + audioUrl;
+		audioUrl = "https:" + audioUrl;
 		try {
 			HttpHeaders headers = new HttpHeaders();
 			response.setContentType("audio/mpeg");
@@ -54,7 +54,7 @@ public class DictionaryController {
 	private static String buildHeader(String url) {
 		Matcher matcher = PATTERN.matcher(url);
 		if (matcher.find()) {
-			String fileName = matcher.group(3);
+			String fileName = matcher.group(3) + ".mp3";
 			return String.format("attachment; filename=\"%s\"", fileName);
 		}
 		return EMPTY;
