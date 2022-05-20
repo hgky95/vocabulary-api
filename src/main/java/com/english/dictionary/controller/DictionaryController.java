@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.maven.shared.utils.StringUtils;
 import org.springframework.core.io.FileUrlResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -25,7 +26,6 @@ import org.springframework.web.client.RestTemplate;
 public class DictionaryController {
 
 	private static final String URI = "https://api.dictionaryapi.dev/api/v2/entries/en/";
-	private static final Pattern PATTERN = Pattern.compile("(\\/sounds)(.\\d*\\/)(\\w*)");
 	private static final String EMPTY = "";
 
 	@RequestMapping(method = RequestMethod.GET)
@@ -38,7 +38,7 @@ public class DictionaryController {
 
 	@RequestMapping(value = "/audio", method = RequestMethod.GET)
 	public ResponseEntity<?> downloadAudio(@RequestParam("audioUrl") String audioUrl, HttpServletResponse response) {
-		audioUrl = "https:" + audioUrl;
+		//Ex: audioUrl = https://api.dictionaryapi.dev/media/pronunciations/en/hello-uk.mp3
 		try {
 			HttpHeaders headers = new HttpHeaders();
 			response.setContentType("audio/mpeg");
@@ -52,12 +52,14 @@ public class DictionaryController {
 	}
 
 	private static String buildHeader(String url) {
-		Matcher matcher = PATTERN.matcher(url);
-		if (matcher.find()) {
-			String fileName = matcher.group(3) + ".mp3";
+		if (StringUtils.isNotEmpty(url)) {
+			int maxLength = url.length();
+			int lastSlashIndex = url.lastIndexOf("/");
+			String fileName = url.substring(lastSlashIndex + 1,  maxLength);
 			return String.format("attachment; filename=\"%s\"", fileName);
 		}
 		return EMPTY;
 	}
+	
 
 }
